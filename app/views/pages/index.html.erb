@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>
+		Tasker
+	</title>
+	<link rel="stylesheet" type="text/css" href="main.css" media="screen">
+</head>
+
+<body>
+
+Welcome to my website!
+
+<%= form_tag search_yelp_pages_path do %>
+    <%= text_field_tag :search_query %>
+    <%= submit_tag "Nearby Search (Yelp)" %>
+<% end %>
+
+<%# form_tag search_google_pages_path do %>
+    <%# text_field_tag :search_query %>
+    <%# submit_tag "Nearby Search (Google)" %>
+<%# end %>
+
+
+<%# <%= button_to 'Get Yelp Token', pages_get_yelp_token_path, method: :post %>
+
+<%# <%= button_to 'Search Yelp (Santa Clara Starbucks)', pages_search_yelp_path, method: :get %>
+
+</body>
+</html>

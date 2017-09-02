@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>
+		Tasker
+	</title>
+	<link rel="stylesheet" type="text/css" href="main.css" media="screen">
+</head>
+
+<body>
+
+	<%= link_to 'Back to Search Results', :back, method: :get %>
+
+
+	<div id="wrapper">
+
+		<div id="infobar">
+			<div id="header_pics">
+				<% @yelp_details["photos"].each do |p| %>
+					<img src= <%= p %> width=500px class="header_pic">
+				<% end %>
+			</div>
+
+			<div id="main_info_box">
+
+				<% if @yelp_details["is_closed"] == true %>
+					<div class = "closed">
+						Closed
+					</div>
+				<% else %>
+					<div class = "open">
+						Open Now
+					</div>
+				<% end %>
+
+				<img src= <%= image_url('star-black.png') %> height=12 width=auto>
+				<%= @yelp_details["review_count"] %> total reviews <br>
+
+				<img src= <%= image_url('phone.png') %> height=12 width=12>
+				<%= @yelp_details["display_phone"] %> <br>
+
+				<div id="address_box">
+					<img src= <%= image_url('address.png') %> class="address">
+					<div class="display_address">
+						<%=	@yelp_details["location"]["display_address"][0]%> <br>
+						<%=	@yelp_details["location"]["display_address"][1]%> <br>
+						<%=	@yelp_details["location"]["display_address"][2]%> <br>
+					</div>
+				</div>
+
+				<%# @yelp_details["coordinates"] %>
+
+				<a href= <%= @yelp_details["url"] %>> View full details </a> <br> <br>
+
+			</div>	
+
+			<div id="vague_box">
+
+				<div class= "name">
+					<%= @yelp_details["name"] %>
+				</div>
+
+				<div class="category"> 
+					<img src= <%= image_url('food.png') %> height=20 width=auto>
+					<%= @yelp_details["categories"][0]["title"] %> 
+					•
+					<% rating = @yelp_details["rating"] %>
+					<% num_stars = 0 %>
+					<span style="color: #F1B702"> <%= rating %> </span>
+					
+					<% while rating > 0 do %>
+						<img src= <%= image_url('star.png') %> height=18 width=auto>
+						<% num_stars += 1 %>
+						<% rating -= 1 %>
+						<% if rating == 0.5 %>
+							<img src= <%= image_url('half-star.png') %> height=18 width=auto>
+							<% num_stars += 1 %>
+							<% break %>
+						<% end %>
+					<% end %>
+					<% while num_stars < 5 do %>
+						<img src= <%= image_url('gray-star.png') %> height=18 width=auto>
+						<% num_stars += 1 %>
+					<% end %>
+					•
+					<%= @yelp_details["price"] %><br>
+				</div>
+
+			</div>
+
+			<br>
+		
+		</div>
+
+		<br>
+		<div id="content">
+
+
+			<div id="my_review_box">
+				<%= form_for :review, :html => { :multipart => true }, url: reviews_path do |r| %>
+
+					<%= r.label :rating %>
+					<%= r.text_field :rating %>
+					<br>
+
+					<%= r.text_area :description, :required => true, placeholder: "Description", class: 'form_description' %> <br>
+					
+					<%= file_field_tag "files[]", type: :file, multiple: true, class: 'upload_files_button' %>
+
+					<%= hidden_field_tag :restaurant_id, @yelp_details["id"] %> <br>
+
+					Item:
+
+					<%= r.fields_for :item_reviews do |item_r| %>
+						<%= item_r.label :title %>
+						<%= item_r.text_field :title %>
+						<br>
+				    	<%= item_r.label :rating %>
+						<%= item_r.text_field :rating %>
+						<br>
+						<%= item_r.text_area :description, :required => true, placeholder: "Description", class: 'form_description' %> <br>
+
+				    	<%# file_field_tag "files[]", type: :file, multiple: true, class: 'upload_files_button' %>
+				    <% end %>
+
+					<%= r.submit "Add review", class: "submit-button" %>
+				<% end %>
+
+				<% Review.all.reverse_order.each do |r| %>
+					<br>
+					<% if r.restaurant_id == @yelp_details["id"] %>
+
+						<% rating = r.rating %>
+						<% num_stars = 0 %>
+						<span style="color: #F1B702"> <%= rating %> </span>
+						
+						<% while rating > 0 do %>
+							<img src= <%= image_url('star.png') %> height=18 width=auto>
+							<% num_stars += 1 %>
+							<% rating -= 1 %>
+							<% if rating == 0.5 %>
+								<img src= <%= image_url('half-star.png') %> height=18 width=auto>
+								<% num_stars += 1 %>
+								<% break %>
+							<% end %>
+						<% end %>
+						<% while num_stars < 5 do %>
+							<img src= <%= image_url('gray-star.png') %> height=18 width=auto>
+							<% num_stars += 1 %>
+						<% end %>
+						<%= local_time_ago(r.created_at) %> <br>
+
+						<%= r.description %> <br>
+
+						<%# r.images.each do |image| %>
+							<%# image.file.url(:thumbnail) %>
+							<%# image_tag image.file.url, class: "review_photo" %>
+						<%# end %>
+
+						<%= render_gallery_for r.images %>
+
+ 						Items: <br>
+ 						<%# if r.item_reviews %>
+ 							<% r.item_reviews.each do |item_r| %>
+ 								<% item_r.title %> <br>
+ 								<% item_r.rating %> <br>
+ 								<% item_r.description %>
+ 							<% end %>
+ 						<%# end %>
+
+ 						
+
+						
+
+					<% end %>
+				<% end %>
+			</div>
+
+			<div id="map_box">
+
+			</div>
+
+
+
+
+
+			<!-- REVIEWS -->
+			<div id="reviews_box">
+				<% @yelp_reviews["reviews"].each do |r| %>
+					<div class="text_area"> 
+						<% date, time = r["time_created"].split(" ") %>
+						<% time_1, time_2, time_3 = time.split(":") %>
+
+						<% suffix = "am" %>
+						<% if time_1.to_i > 12 %>
+							<% suffix = "pm" %>
+							<% time_1 = time_1.to_i % 12 %> 
+						<% end %>
+						<% time = "#{time_1}:#{time_2} #{suffix}" %>
+
+						<% rating = r["rating"] %>
+						<% num_stars = 0 %>
+
+						<span style="color: #F1B702"> <%= rating %> </span>
+				
+						<% while rating > 0 do %>
+							<img src= <%= image_url('star.png') %> height=15 width=auto>
+							<% num_stars += 1 %>
+							<% rating -= 1 %>
+							<% if rating == 0.5 %>
+								<img src= <%= image_url('half-star.png') %> height=15 width=auto>
+								<% num_stars += 1 %>
+								<% break %>
+							<% end %>
+						<% end %>
+						<% while num_stars < 5 do %>
+							<img src= <%= image_url('gray-star.png') %> height=15 width=auto>
+							<% num_stars += 1 %>
+						<% end %>
+
+						<span class="timestamp"> Posted on <%= date %> at <%= time %> by <%= r["user"]["name"] %></span><br>
+
+						<div class="text"> <%= r["text"] %> </div>
+						<hr>
+					</div>
+				<% end %>
+			</div> 
+			<!-- REVIEWS -->
+
+			<!-- HOURS -->
+			<% days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %>
+			<% days_hours = {"Monday" => [], "Tuesday" => [], "Wednesday" => [], "Thursday" => [], "Friday" => [], "Saturday" => [], "Sunday" => []} %>
+
+			<% if @yelp_details["hours"] %>
+				<% @yelp_details["hours"][0]["open"].each do |h| %>
+					<% start = h["start"] %>
+
+					<% suffix_start = "am" %>
+					<% beg_start = start[0,2].to_i %>
+					<% end_start = start[2,4] %>
+					<% if beg_start > 12 %>
+						<% suffix_start = "pm" %>
+						<% beg_start = beg_start % 12 %> 
+					<% end %>
+					<% start = "#{beg_start}:#{end_start} #{suffix_start}" %>
+
+					<% endi = h["end"] %>
+
+					<% suffix_end = "am" %>
+					<% beg_end = endi[0,2].to_i %>
+					<% end_end = endi[2,4] %>
+					<% if beg_end > 12 %>
+						<% suffix_end = "pm" %>
+						<% beg_end = beg_end % 12 %> 
+					<% end %>
+					<% endi = "#{beg_end}:#{end_end} #{suffix_end}" %>
+
+					<% day = days[h["day"]] %>
+					<% days_hours[day].push("#{start} - #{endi}")%>
+				<% end %> 
+			<% end %> 
+
+			<div id="right_sidebar">
+
+				<b> Hours of Operation </b>
+
+					<% if @yelp_details["hours"] %>
+						<table>
+							<% days_hours.each do |day, hours| %>
+
+								<% num_hours = hours.length%>
+								<tr>
+									<td> <%= day %> </td>
+									<% if num_hours == 0 %>
+										<td> Closed </td>
+								    <% else %>
+										<td> <%= hours[0] %> </td>
+									<% end %>
+								</tr>
+
+							    <% if num_hours > 1 %>
+							    	<% for i in 1..num_hours %>
+									    <tr>
+											<td>  </td>
+											<td> <%= hours[i] %> </td>
+										</tr>
+									<% end %>
+								<% end %>
+							<% end %>
+						</table>
+					<% else %>
+						No hours available
+					<% end %>
+				<!-- END HOURS -->
+			</div>
+
+			
+			
+		</div>
+	</div>
+</body>
+</html>

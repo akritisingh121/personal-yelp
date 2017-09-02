@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>
+		Tasker
+	</title>
+	<%= stylesheet_link_tag "application" %>
+</head>
+
+<body>
+
+<%= button_to 'Back to Search', pages_path, method: :get %>
+
+<% @yelp_result.each do |key, val| %>
+	<% if key == "businesses" %>
+		<% val.each do |v| %>
+			<div id="yelp_wrapper">
+				<div id="upper_bar">
+					<div id="top_bar">
+						<div class="place_title">
+							<%= v["name"] %>
+						</div>
+						<div class="rating-search">
+							<%= rating = v["rating"] %>
+							<% while rating > 0 do %>
+								<img src= <%= image_url('star.png') %> height=15 width=15>
+								<% rating -= 1 %>
+								<% if rating == 0.5 %>
+									<img src= <%= image_url('half-star.png') %> height=15 width=auto>
+									<% break %>
+								<% end %>
+							<% end %>
+						</div>
+					</div>
+					<div id="bottom_bar">
+						<div class="place_category">
+							<%= v["categories"][0]["title"] %>
+						</div>
+						<div class="price">
+							<%= v["price"] %>
+						</div>
+					</div>
+				</div>
+				<div id="info_wrapper">
+					<div id="place_img">
+						<img src= <%= v["image_url"] %> height="80" width="75">
+					</div>
+					<div id="details">
+						<img src= <%= image_url('phone.png') %> height=12 width=12>
+						<%=	v["display_phone"] %> <br>
+						<div id="address_box">
+							<img src= <%= image_url('address.png') %> class="address">
+							<div class="display_address">
+								<%=	v["location"]["display_address"][0]%> <br>
+								<%=	v["location"]["display_address"][1]%> <br>
+								<%=	v["location"]["display_address"][2]%> <br>
+							</div>
+						</div>
+					</div>
+					<%= link_to "Details", :controller => "pages", :action => "view_details", :id =>  v["id"]%>
+				</div>
+			</div>
+
+		<% end %>
+	<% end %>
+<% end %>
+
+</body>
+</html>
+
+
+
+
+
+

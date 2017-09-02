@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>
+		Tasker
+	</title>
+	<%= stylesheet_link_tag "application" %>
+</head>
+
+<body>
+
+<%= button_to 'Back to Search', pages_path, method: :get %>
+
+The google results page! <br>
+
+<%= link_to root_path do %>
+  <div>Hey!</div>
+<% end %>
+
+<% @google_result.each do |key, val| %>
+	<% if key == "results" %>
+		<% val.each do |v| %>
+			<div id="yelp_wrapper">
+				<div id="upper_bar">
+					<div id="top_bar">
+						<div class="place_title">
+							<%= v["name"] %>
+						</div>
+						<div class="rating">
+							Rating <%# v["rating"] %>
+						</div>
+					</div>
+					<div id="bottom_bar">
+						<div class="place_category">
+							Types
+							<%# v["types"] %>
+						</div>
+						<div class="price">
+							Price<%# v["price"] %>
+						</div>
+					</div>
+				</div>
+				<div id="info_wrapper">
+					<div id="place_img">
+						Pic
+						<%# <img src= <%= v["icon"]  height="80" width="75">%>
+					</div>
+					<div id="details">
+						Vicinity
+						<%#	v["vicinity"] %>
+					</div>
+					<%= link_to "Details", :controller => "pages", :action => "view_details", :location =>  v["coordinates"], :name => v["name"]%>
+				</div>
+			</div>
+
+		<% end %>
+	<% end %>
+<% end %>
+
+</body>
+</html>
+
+

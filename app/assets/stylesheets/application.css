@@ -1,0 +1,348 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+
+body {
+	font-size: 12px;
+	font-family: Helvetica;
+	padding: 20px;
+}
+
+#wrapper {
+	width: 1000px;
+	margin: auto;
+}
+
+#yelp_wrapper {
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid black;
+	width: 500px;
+	height: 130px;
+
+	display: flex;
+	flex-flow: column wrap;
+	align-content: center;
+}
+
+#upper_bar {
+	display: flex;
+	justify-content: space-between;
+	flex-flow: column wrap;
+	flex: 0 1 auto;
+}
+
+#top_bar {
+
+	flex: 1 0 auto;
+	align-items: flex-end;
+}
+
+#bottom_bar {
+
+	flex: 1 0 auto;
+	align-items: flex-end;
+	padding: 5px;
+}
+
+#info_wrapper {
+
+	flex: 1 0 auto;
+
+	display: flex;
+	flex-flow: row wrap;
+}
+
+#place_img {
+	width: 75px;
+	height: 75px;
+
+	float: left;
+	display: inline-block;
+
+	flex: 0 1 auto;
+}
+
+#details {
+	float: right;
+	padding-left: 10px;
+	flex: 1 0 auto;
+}
+
+.place_title {
+	font-size: 20px;
+	float: left;
+	display: inline-block;
+}
+
+.place_category {
+	font-size: 15px;
+	float: left;
+}
+
+.rating-search {
+	font-size: 15px;
+	float: right;
+}
+
+.price {
+	font-size: 15px;
+	float: right;
+}
+
+.try {
+	font-size: 3px;
+	padding: 20px;
+	color: green;
+}
+
+#review {
+	width: 80%;
+	margin: 10px;/*
+	display: flex;
+	flex-flow: row no-wrap;*/
+	box-sizing: border-box;
+
+}
+
+#user_info_area {
+	flex: 0 1 auto;
+	background-color: #939393;
+	padding: 10px;
+	text-align: center;
+}
+
+.text_area {
+/*	flex: 1 0 auto;*/
+	background-color: #cccccc;
+	word-wrap: normal;
+	overflow: auto;
+	width: inherit;
+	padding: 10px;
+}
+
+.text {
+	margin-top: 10px;
+}
+
+.timestamp {
+	font-style: italic;
+}
+
+.display_address {
+	flex: 0 1 auto;
+}
+
+#address_box {
+	display: flex;
+	flex-flow: row no-wrap;
+}
+
+img.address {
+	flex: 0 1 auto;
+	height: 12px;
+	width: auto;
+	margin-right: 5px;
+}
+
+
+.closed {
+	font-weight: bold;
+	color: red;
+}
+
+.open {
+	font-weight: bold;
+	color: green;
+}
+
+
+.name {
+	flex: 1 0 auto;
+	font-size: 40px;
+}
+
+.category {
+	flex: 0 1 auto;
+	font-size: 18px;
+}
+
+.rating {
+	color: yellow;
+	font-size: 18px;
+	position: absolute;
+
+}
+
+#header_pics {
+	display: flex;
+	flex-flow: row no-wrap;
+	width: 1010px;
+	left: -5px;
+	right: -5px;
+	background-color: blue;
+	justify-content: center;
+	box-sizing: border-box;
+	z-index: 99;
+
+	position: absolute;
+	top: 0px;
+}
+
+img.header_pic {
+	flex: 0 1 auto;
+	object-fit: cover;
+	max-width: 34%;
+	height: 300px;
+	z-index: 100;
+}
+
+#content {
+	display: flex;
+	flex-flow: row wrap;
+
+	width: 1000px;
+	margin: auto;
+
+	justify-content: stretch;
+
+	background-color: purple;
+	box-sizing: border-box;
+}
+
+#right_sidebar {
+	flex: 0 1 auto;
+	background-color: gray;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+/*#hours_box {
+	width: 200px;
+}*/
+
+#reviews_box {
+	background-color: black;
+	max-width: 750px;
+	flex: 1 0 auto;
+	box-sizing: border-box;
+}
+
+.submit-button {
+	background-color: purple;
+	color: white;
+	padding: 10px;
+	border-radius: 10px;
+	border: none;
+}
+
+#my_review_box {
+/*	flex: 0 1 auto;*/
+	background-color: orange;
+	width:  50%;
+	padding: 20px;
+	overflow: hidden;
+}
+
+#map_box {
+/*	flex: 0 1 auto;*/
+	background-color: blue;
+	width:  50%;
+}
+
+#infobar {
+	background-color: red;
+	width: 100%;
+	height: 425px;
+	padding: 20px;
+	margin-top: 30px;
+	box-sizing: border-box;
+	z-index: -100;
+
+	position: relative;
+	margin-bottom: 25px;
+}
+
+#vague_box {
+	display: flex;
+	flex-flow: column wrap;
+	width: 100%;
+	height: auto;
+	position: absolute;
+	bottom: 30px;
+}
+
+#main_info_box {
+	background-color: green;
+	width: 200px;
+	height: 165px;
+	z-index: 10000;
+
+	position: absolute;
+	right: 50px;
+	bottom: -20px;
+	box-sizing: border-box;
+
+	padding: 20px;
+	font-size: 13px;
+}
+
+.form_description {
+	border-radius: 10px;
+	border-color: white;
+	height: 75px;
+	width: 75%;
+	max-width: 500px;
+}
+
+#review_add_detail_button {
+	background-color: purple;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+#review_detail_form {
+	background-color: blue;
+	width: 100px;
+	height: 100px;
+	display:none;
+}
+
+.review_photo {
+	max-width: 200px;
+}
+
+ul.thumbnails {
+	list-style: none;
+}
+
+li.span4 {
+	display: inline;
+	padding:5px;
+	max-width: 200px;
+	max-height: 200px;
+	object-fit: cover;
+
+}
+
+a.thumbnail {
+	width: 200px;
+	height: 200px;
+}
+
+.upload_files_button {
+
+}
